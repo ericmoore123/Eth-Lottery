@@ -2,8 +2,11 @@ const HDWalletProvider = require("truffle-hdwallet-provider");
 const Web3 = require("web3");
 const { interface, bytecode } = require("./compile");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const provider = new HDWalletProvider(
-  "video mistake knock comic inner vacuum short soon height ride impulse phone",
+  process.env.METAMASK_PHRASE,
   "https://rinkeby.infura.io/v3/03b894913cb6484a938b6e46cbbbdeeb"
 );
 const web3 = new Web3(provider);
