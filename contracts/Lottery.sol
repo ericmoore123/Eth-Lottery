@@ -28,7 +28,7 @@ contract Lottery{
         
         uint player = randomNumber() % players.length; // Get player whos remainder is arrays index
         players[player].transfer(this.balance); // Transfer takes ALL money from current contract and sends to address provided
-    
+
         players = new address[](0); // Reinitialize players array to be dynamic and initialize its starting size to zero
     }
     
