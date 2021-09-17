@@ -20,13 +20,18 @@ describe('Lottery Contract', () => {
 
     it('Deploys a Contract', () => { 
         assert.ok(lottery.options.address); // Make sure contract address is a value
+        console.log(`Contract deployed to: ${lottery.options.address}`);
     });
 
     it('Manager is assigned', async () => {
         const manager = await lottery.methods.manager().call(); // Call manager variable and verify it has a value assigned
         assert.ok(manager);
+        console.log(`Manager address is: ${manager}`);
     });
 
+    it('', () => {
+
+    });
     
 });
 
