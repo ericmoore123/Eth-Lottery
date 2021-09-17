@@ -29,8 +29,9 @@ describe('Lottery Contract', () => {
         console.log(`Manager address is: ${manager}`);
     });
 
-    it('', () => {
-
+    it('More than 1 participant', async () => {
+        const participants = await lottery.methods.getParticipants().call();
+        assert.ok(participants.length == 0);
     });
     
 });
