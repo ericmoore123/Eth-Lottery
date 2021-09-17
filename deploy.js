@@ -2,11 +2,12 @@ const HDWalletProvider = require("truffle-hdwallet-provider");
 const Web3 = require("web3");
 const { interface, bytecode } = require("./compile");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const provider = new HDWalletProvider(
-  "juice bicycle seek common shield hello below angry source share exact mobile",
-  // remember to change this to your own phrase!
-  "https://rinkeby.infura.io/v3/15c1d32581894b88a92d8d9e519e476c"
-  // remember to change this to your own endpoint!
+  process.env.METAMASK_PHRASE,
+  "https://rinkeby.infura.io/v3/03b894913cb6484a938b6e46cbbbdeeb"
 );
 const web3 = new Web3(provider);
 
