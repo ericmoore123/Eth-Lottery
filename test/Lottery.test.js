@@ -1,7 +1,7 @@
 const assert = require('assert'); // NodeJS Assert for assertion testing
 const ganache = require('ganache-cli'); // Local test network
-const Web3 = require('web3'); //
-const web3 = new Web3(ganache.provider()); // Provider() allows us to connect to any given network
+const Web3 = require('web3'); // Get web3 instance
+const web3 = new Web3(ganache.provider()); //Create new web3 instance, Provider() allows us to connect to any given network
 
 const { interface, bytecode } = require('../compile');
 
@@ -17,8 +17,16 @@ beforeEach(async () => {
 });
 
 describe('Lottery Contract', () => {
+
     it('Deploys a Contract', () => { 
         assert.ok(lottery.options.address); // Make sure contract address is a value
     });
+
+    it('Manager is assigned', async () => {
+        const manager = await lottery.methods.manager().call(); // Call manager variable and verify it has a value assigned
+        assert.ok(manager);
+    });
+
+    
 });
 
