@@ -71,13 +71,30 @@ describe('Lottery Contract', () => {
 
     it('Only manager can pick winner', async () => { // Make sure anyone other thab manager gets kicked out o pickWinner() method
         try{
-            await lottery.methods.pickWinner.send(
+            await lottery.methods.getWinner().send(
                 { from: accounts[1] } // Make call from wrong address
             );
             assert(false);
         }catch (err){
             assert(err);
         }
+    });
+
+    it('Sends money to winner, resets the players array', async () => {
+        await lottery.methods.enterLottery().send( 
+            { from: accounts[0], value: web3.utils.toWei("2", 'ether') },
+        );
+        
+        const initialBalance = await web3.eth.getBalance(accounts[0]); // Returns contract balance in 'wei' assigned to an address
+        await lottery.methods.getWinner().send(
+            { from: accounts[0] } 
+        );
+        const finalBalance = await web3.eth.getBalance(accounts[0]);
+
+        const difference = finalBalance - initialBalance;
+        assert(difference > web3.utils.toWei('1.8', 'ether')); // Making sure the difference between starting and ending balance is greater than 1.8
+                                                               // because we spend 'some' amount of ether on gas
+
     });
 
     
