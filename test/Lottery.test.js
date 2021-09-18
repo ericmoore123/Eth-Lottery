@@ -67,7 +67,17 @@ describe('Lottery Contract', () => {
         }catch (err) { // If error in try secion, run catch error section
             assert(err); // Make sure error happened (truthy-ness)
         }
+    });
 
+    it('Only manager can pick winner', async () => { // Make sure anyone other thab manager gets kicked out o pickWinner() method
+        try{
+            await lottery.methods.pickWinner.send(
+                { from: accounts[1] } // Make call from wrong address
+            );
+            assert(false);
+        }catch (err){
+            assert(err);
+        }
     });
 
     
