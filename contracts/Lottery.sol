@@ -36,5 +36,5 @@ contract Lottery{
         require(msg.sender == msg.sender);
         _; // Underscore represents all code from functions you add the modifier to (is required)
     }
-    
+      
 }
