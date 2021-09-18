@@ -15,7 +15,7 @@ beforeEach(async () => {
                 .send({ from: accounts[0], gas: '1000000' });
 });
 
-// Assert.ok() checks if value is 'truthy'
+// Assert.ok() checks if value exists
 describe('Lottery Contract', () => {
     it('Deploys a Contract', () => { 
         assert.ok(lottery.options.address); // Make sure contract address is a value
@@ -25,13 +25,51 @@ describe('Lottery Contract', () => {
     it('Manager is assigned', async () => {
         const manager = await lottery.methods.manager().call(); // Call manager variable and verify it has a value assigned
         assert.ok(manager);
-        console.log(`Manager address is: ${manager}`);
+        // console.log(`Manager address is: ${manager}`);
     });
 
-    it('More than 1 participant', async () => {
-        const participants = await lottery.methods.getParticipants().call();
-        assert.ok(participants.length == 0);
+    it('Allows one account to enter lottery', async () => { // Make sure we can properly add a player to the players array
+        await lottery.methods.enterLottery().send( //Enter us into lottery
+            { from: accounts[0], value: web3.utils.toWei("0.011", 'ether') }
+        );
+
+        const players = await lottery.methods.getParticipants().call({ from: accounts[0] }); // Get all players entered into lottery
+
+        assert.equal(accounts[0], players[0]); // Make sure address[0] is equal to the first players address added
+        assert.equal(1, players.length); // Make sure players array only has 1 value
+    }); 
+
+    it('Allows multipe accounts to enter lottery', async () => { // Verify multiple players can be added to lottery
+        await lottery.methods.enterLottery().send( 
+            { from: accounts[0], value: web3.utils.toWei("0.011", 'ether') },
+        );
+        await lottery.methods.enterLottery().send( 
+            { from: accounts[1], value: web3.utils.toWei("0.011", 'ether') },
+        );
+        await lottery.methods.enterLottery().send( 
+            { from: accounts[2], value: web3.utils.toWei("0.011", 'ether') },
+        );
+
+        const players = await lottery.methods.getParticipants().call({ from: accounts[0] }); 
+
+        assert.equal(accounts[0], players[0]); // Verify addresses correlate properly
+        assert.equal(accounts[1], players[1]); 
+        assert.equal(accounts[2], players[2]); 
+        assert.equal(3, players.length); // Verify all 3 addresses were added
     });
+
+    it('Requires a minimum amount of ether to enter', async () => {
+        try{ //Attempt to run code in try section
+            await lottery.methods.enterLottery().send(
+                { from: accounts[0], value: 0 } // Sending insufficient ether
+            );
+            assert(false); // If this runs, test fails (Only really useful if values in try will change in future tests)
+        }catch (err) { // If error in try secion, run catch error section
+            assert(err); // Make sure error happened (truthy-ness)
+        }
+
+    });
+
     
 });
 
