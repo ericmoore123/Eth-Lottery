@@ -15,7 +15,6 @@ contract Lottery{
     
     function enterLottery() public payable { // If player sends 0.01 of Eth (in wei), accept them into players array
         require(msg.value > 0.01 ether);
-        
         players.push(msg.sender);
     }
     
@@ -36,5 +35,5 @@ contract Lottery{
         require(msg.sender == msg.sender);
         _; // Underscore represents all code from functions you add the modifier to (is required)
     }
-    
+      
 }
