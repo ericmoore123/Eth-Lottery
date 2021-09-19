@@ -72,7 +72,7 @@ describe('Lottery Contract', () => {
     it('Only manager can pick winner', async () => { // Make sure anyone other thab manager gets kicked out o pickWinner() method
         try{
             await lottery.methods.getWinner().send(
-                { from: accounts[1] } // Make call from wrong address
+                { from: accounts[1] } // Make call from non-manager address
             );
             assert(false);
         }catch (err){
