@@ -65,7 +65,7 @@ describe('Lottery Contract', () => {
                 { from: accounts[0], value: 0 } // Sending insufficient ether
             );
             assert(false); // If this runs, test fails (Only really useful if values in try will change in future tests)
-        }catch (err) { // If error in try secion, run catch error section
+        }catch (err) { // If error in 'try' section, run 'catch' error section 
             assert(err); // Make sure error happened (truthy-ness)
         }
     });
