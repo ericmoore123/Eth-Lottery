@@ -7,7 +7,7 @@ const { interface, bytecode } = require('../compile'); // Import Bytecode and AB
 let lottery;
 let accounts;
 
-beforeEach(async () => {
+beforeEach(async () => {  // Called before each describe statement, gets accounts and creates new contract instance
     accounts = await web3.eth.getAccounts(); // Get all accounts associated with contract
     
     lottery = await new web3.eth.Contract(JSON.parse(interface))
@@ -15,7 +15,7 @@ beforeEach(async () => {
                 .send({ from: accounts[0], gas: '1000000' });
 });
 
-// Assert.ok() checks if value exists
+// Assert.ok() checks if value exists and returns true or false value accordingly
 describe('Lottery Contract', () => {
     it('Deploys a Contract', () => { 
         assert.ok(lottery.options.address); // Make sure contract address is a value
@@ -51,6 +51,7 @@ describe('Lottery Contract', () => {
         );
 
         const players = await lottery.methods.getParticipants().call({ from: accounts[0] }); 
+            console.log(players); // Returns address hash of the 3 new players
 
         assert.equal(accounts[0], players[0]); // Verify addresses correlate properly
         assert.equal(accounts[1], players[1]); 
