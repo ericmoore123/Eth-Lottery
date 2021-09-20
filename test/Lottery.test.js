@@ -7,15 +7,16 @@ const { interface, bytecode } = require('../compile'); // Import Bytecode and AB
 let lottery;
 let accounts;
 
-beforeEach(async () => {
+beforeEach(async () => {  // Called before each describe statement, gets accounts and creates new contract instance
     accounts = await web3.eth.getAccounts(); // Get all accounts associated with contract
-    
+
     lottery = await new web3.eth.Contract(JSON.parse(interface))
                 .deploy({ data: bytecode })
                 .send({ from: accounts[0], gas: '1000000' });
 });
 
-// Assert.ok() checks if value exists
+// TESTING
+// Assert.ok() checks if value exists and returns true or false value accordingly
 describe('Lottery Contract', () => {
     it('Deploys a Contract', () => { 
         assert.ok(lottery.options.address); // Make sure contract address is a value
@@ -51,6 +52,7 @@ describe('Lottery Contract', () => {
         );
 
         const players = await lottery.methods.getParticipants().call({ from: accounts[0] }); 
+            console.log(players); // Returns address hash of the 3 new players
 
         assert.equal(accounts[0], players[0]); // Verify addresses correlate properly
         assert.equal(accounts[1], players[1]); 
@@ -64,7 +66,7 @@ describe('Lottery Contract', () => {
                 { from: accounts[0], value: 0 } // Sending insufficient ether
             );
             assert(false); // If this runs, test fails (Only really useful if values in try will change in future tests)
-        }catch (err) { // If error in try secion, run catch error section
+        }catch (err) { // If error in 'try' section, run 'catch' error section 
             assert(err); // Make sure error happened (truthy-ness)
         }
     });
@@ -94,9 +96,7 @@ describe('Lottery Contract', () => {
         const difference = finalBalance - initialBalance;
         assert(difference > web3.utils.toWei('1.8', 'ether')); // Making sure the difference between starting and ending balance is greater than 1.8
                                                                // because we spend 'some' amount of ether on gas
-
     });
-
-    
+  
 });
 
