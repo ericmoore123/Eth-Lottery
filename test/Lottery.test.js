@@ -15,6 +15,7 @@ beforeEach(async () => {  // Called before each describe statement, gets account
                 .send({ from: accounts[0], gas: '1000000' });
 });
 
+// TESTING
 // Assert.ok() checks if value exists and returns true or false value accordingly
 describe('Lottery Contract', () => {
     it('Deploys a Contract', () => { 
@@ -95,9 +96,7 @@ describe('Lottery Contract', () => {
         const difference = finalBalance - initialBalance;
         assert(difference > web3.utils.toWei('1.8', 'ether')); // Making sure the difference between starting and ending balance is greater than 1.8
                                                                // because we spend 'some' amount of ether on gas
-
     });
-
-    
+  
 });
 
