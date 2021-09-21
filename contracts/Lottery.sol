@@ -4,6 +4,7 @@ contract Lottery{
     
     address public manager;
     address[] public players;
+    address public lastWinner;
     
     function Lottery() public {
         manager = msg.sender; // Set manager to sender of contract (owner of Lottery contract)
@@ -27,7 +28,7 @@ contract Lottery{
         
         uint player = randomNumber() % players.length; // Get player whos remainder is arrays index
         players[player].transfer(this.balance); // Transfer takes ALL money from current contract and sends to address provided
-
+        lastWinner = players[player]; // Set winner as randomly selected lottery player
         players = new address[](0); // Reinitialize players array to be dynamic and initialize its starting size to zero
     }
     
